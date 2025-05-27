@@ -8,6 +8,12 @@
 using namespace std;
 //do miany przekazanie board
 
+extern bool currentPlayer;
+extern char gameChars[];
+extern unsigned int boardSize;
+extern unsigned int winNumber;
+extern unsigned int xPlace, yPlace;
+
 
 void winCheck(unsigned int size, unsigned int winNum, char** &board, char currentChar, unsigned int x_place, unsigned int y_place) {
 	SLinkedList winCheckList;
@@ -146,7 +152,7 @@ void winCheck(unsigned int size, unsigned int winNum, char** &board, char curren
 }
 
 void changePlayer() {
-	currentPlayer = !currentPlayer;
+	currentPlayer = currentPlayer; // Switch between players
 }
 
 void placeChar(unsigned int x_place, unsigned int y_place, char**& board) {
@@ -159,7 +165,7 @@ void placeChar(unsigned int x_place, unsigned int y_place, char**& board) {
 			isMoveValid = true;
 		}
 		else {
-			cout << "This place is already taken!" << endl;
+			cout << "\nThis place is already taken!" << endl;
 		}
 	}
 }
