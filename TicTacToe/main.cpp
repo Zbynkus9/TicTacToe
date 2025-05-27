@@ -1,6 +1,7 @@
 #include <iostream>
 #include "board.h"
 #include "gameLogic.h"
+#include "menu.h"
 
 using namespace std;
 
@@ -9,20 +10,57 @@ unsigned int winNumber = 0;
 bool currentPlayer = 0;
 bool isPvP = 1;
 char gameChars[] = { 'O', 'X' };
+string menuSelection = "";
 
-unsigned int xPlace = 0, yPlace = 0;
+long int xPlace = 0, yPlace = 0; //powinny byc na odwrot wiersze i kolumny
 
 int main() {
-	cout << "Welcome to Tic Tac Toe!" << endl;
-	while (boardSize < 3 || boardSize > 20) {
-		cout << "\nSpecify board size (min = 3, max = 20): ";
-		cin >> boardSize;
-	}
-	while (winNumber < 3 || winNumber > boardSize) {
-		cout << "\nSpecify win number (min = 3, max = " << boardSize << "): ";
-		cin >> winNumber;
-	}
+	menu();
 	char** board = createBoard(boardSize);
-	printBoard(boardSize, board);
+	if (!board) {
+		cerr << "Error: Unable to create board." << endl;
+		return 1;
+	}
+	setMaxElementsOnBoard();
+	switch (isPvP)
+	{
+	case 0: // Player vs AI
+		cout << "AI mode is not implemented yet." << endl;
+		deleteBoard(board, boardSize);
+		return 0;
+		break;
+
+	case 1: // Player vs Player
+		printBoard(boardSize, board);
+		while (true) {
+			cout << "Player " << gameChars[currentPlayer] << ", enter your move (row and column): ";
+			cin >> xPlace >> yPlace;
+			if (yPlace < 1 || yPlace > boardSize || xPlace < 1 || xPlace > boardSize) {
+				cout << "Invalid move. Please try again." << endl;
+				continue;
+			}
+
+			if (!makeMove(xPlace - 1, yPlace - 1, board)) {
+				continue;
+			} 
+
+			winCheck(boardSize, winNumber, board, gameChars[currentPlayer], xPlace - 1, yPlace - 1);
+
+			changePlayer();
+
+			if (checkForDraw()) {
+				printBoard(boardSize, board);
+				cout << "It's a draw!" << endl;
+				break;
+			}
+
+			printBoard(boardSize, board);
+
+		}
+		break;
+
+	default:
+		break;
+	}
 	return 0;
 }

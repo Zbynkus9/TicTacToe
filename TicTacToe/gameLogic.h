@@ -12,14 +12,18 @@ extern bool currentPlayer;
 extern char gameChars[];
 extern unsigned int boardSize;
 extern unsigned int winNumber;
-extern unsigned int xPlace, yPlace;
+extern long int xPlace, yPlace;
 
 
-void winCheck(unsigned int size, unsigned int winNum, char** &board, char currentChar, unsigned int x_place, unsigned int y_place) {
+unsigned int elementsOnBoard = 0; // Counter for the number of elements on the board
+unsigned int maxElementsOnBoard = 99; // Maximum number of elements on the board
+
+
+void winCheck(unsigned int size, unsigned int winNum, char** &board, char currentChar, long int x_place, long int y_place) {
 	SLinkedList winCheckList;
 	//Check row
 	winCheckList.addOnEmpty(board[x_place][y_place]);
-	for (unsigned int i = 1; i < winNum; i++) {
+	for (long int i = 1; i < winNum; i++) {
 		if (x_place + i < size) {
 			winCheckList.addBack(board[x_place + i][y_place]);
 		}
@@ -45,6 +49,7 @@ void winCheck(unsigned int size, unsigned int winNum, char** &board, char curren
 
 			if (count >= winNum) {
 				cout << "Player " << currentChar << " wins!" << endl;
+				//wyswietl plansze, powiedz kto wygra³ i zakoñcz grê dajac menu z wyborem co dalej
 				return;
 			}
 		}
@@ -52,7 +57,7 @@ void winCheck(unsigned int size, unsigned int winNum, char** &board, char curren
 	}
 	//Check column
 	winCheckList.addOnEmpty(board[x_place][y_place]);
-	for (unsigned int i = 1; i < winNum; i++) {
+	for (long int i = 1; i < winNum; i++) {
 		if (y_place + i < size) {
 			winCheckList.addBack(board[x_place][y_place + i]);
 		}
@@ -78,6 +83,7 @@ void winCheck(unsigned int size, unsigned int winNum, char** &board, char curren
 
 			if (count >= winNum) {
 				cout << "Player " << currentChar << " wins!" << endl;
+				//wyswietl plansze, powiedz kto wygra³ i zakoñcz grê dajac menu z wyborem co dalej
 				return;
 			}
 		}
@@ -85,7 +91,7 @@ void winCheck(unsigned int size, unsigned int winNum, char** &board, char curren
 	}
 	//Check diagonal rising
 	winCheckList.addOnEmpty(board[x_place][y_place]);
-	for (unsigned int i = 1; i < winNum; i++) {
+	for (long int i = 1; i < winNum; i++) {
 		if (x_place + i < size && y_place + i < size) {
 			winCheckList.addBack(board[x_place + i][y_place + i]);
 		}
@@ -111,6 +117,7 @@ void winCheck(unsigned int size, unsigned int winNum, char** &board, char curren
 
 			if (count >= winNum) {
 				cout << "Player " << currentChar << " wins!" << endl;
+				//wyswietl plansze, powiedz kto wygra³ i zakoñcz grê dajac menu z wyborem co dalej
 				return;
 			}
 		}
@@ -118,7 +125,7 @@ void winCheck(unsigned int size, unsigned int winNum, char** &board, char curren
 	}
 	//Check diagonal falling
 	winCheckList.addOnEmpty(board[x_place][y_place]);
-	for (unsigned int i = 1; i < winNum; i++) {
+	for (long int i = 1; i < winNum; i++) {
 		if (x_place + i < size && y_place - i >= 0) {
 			winCheckList.addBack(board[x_place + i][y_place - i]);
 		}
@@ -144,6 +151,7 @@ void winCheck(unsigned int size, unsigned int winNum, char** &board, char curren
 
 			if (count >= winNum) {
 				cout << "Player " << currentChar << " wins!" << endl;
+				//wyswietl plansze, powiedz kto wygra³ i zakoñcz grê dajac menu z wyborem co dalej
 				return;
 			}
 		}
@@ -152,20 +160,29 @@ void winCheck(unsigned int size, unsigned int winNum, char** &board, char curren
 }
 
 void changePlayer() {
-	currentPlayer = currentPlayer; // Switch between players
+	currentPlayer = !currentPlayer; // Switch between players
 }
 
-void placeChar(unsigned int x_place, unsigned int y_place, char**& board) {
-	bool isMoveValid = false;
-	while (!isMoveValid) {
-		if (board[x_place][y_place] == ' ') {
-			board[x_place][y_place] = gameChars[currentPlayer];
-			winCheck(boardSize, winNumber, board, gameChars[currentPlayer], x_place, y_place);
-			changePlayer();
-			isMoveValid = true;
-		}
-		else {
-			cout << "\nThis place is already taken!" << endl;
-		}
+bool makeMove(long int x_place, long int y_place, char**& board) {	
+	if (board[x_place][y_place] == ' ') { //infinite loop bug
+		board[x_place][y_place] = gameChars[currentPlayer];
+		elementsOnBoard++;
+		return true;
 	}
+	else {
+		cout << "\nThis place is already taken!" << endl;
+		return false;
+	}
+}
+
+void setMaxElementsOnBoard() {
+	maxElementsOnBoard = boardSize * boardSize; // Maximum elements on the board
+}
+
+bool checkForDraw() {
+	if (elementsOnBoard == maxElementsOnBoard) {
+		cout << "It's a draw!" << endl;
+		return true;
+	}
+	return false; // Not a draw
 }

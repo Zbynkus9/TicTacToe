@@ -12,8 +12,8 @@ void printBoard(unsigned int size, char** &board) {
 	for (unsigned int j = 0; j < y_size; j++) {
 		for (unsigned int i = 0; i < x_size; i++) {
 			if ((i + 1) % 6 == 3 && (j + 1) % 4 == 2) {
-				//cout << board[j / 4][i / 6];
-				cout << "Z";
+				cout << board[j / 4][i / 6];
+				//cout << "Z";
 			}
 			else if (i > 0 && (i + 1) % 6 == 0) {
 				cout << "|";
@@ -44,4 +44,11 @@ char** createBoard(unsigned int size) {
 	initBoard(size, board);
 	return board;
 }
-//do miany przekazanie board
+
+void deleteBoard(char**& board, unsigned int size) {
+	for (unsigned int i = 0; i < size; i++) {
+		delete[] board[i];
+	}
+	delete[] board;
+	board = nullptr;
+}
