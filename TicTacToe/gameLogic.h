@@ -51,7 +51,7 @@ bool winCheck(unsigned int size, unsigned int winNum, char** &board, char curren
 			current = current->getNext();
 
 			if (count >= winNum) {
-				cout << "Player " << currentChar << " wins!" << endl;
+				//cout << "Player " << currentChar << " wins!" << endl;
 				winCheckList.clearList(); // Clear the list after checking
 				//wyswietl plansze, powiedz kto wygra³ i zakoñcz grê dajac menu z wyborem co dalej
 				return true;
@@ -90,7 +90,7 @@ bool winCheck(unsigned int size, unsigned int winNum, char** &board, char curren
 			current = current->getNext();
 
 			if (count >= winNum) {
-				cout << "Player " << currentChar << " wins!" << endl;
+				//cout << "Player " << currentChar << " wins!" << endl;
 				winCheckList.clearList(); // Clear the list after checking
 				//wyswietl plansze, powiedz kto wygra³ i zakoñcz grê dajac menu z wyborem co dalej
 				return true;
@@ -129,7 +129,7 @@ bool winCheck(unsigned int size, unsigned int winNum, char** &board, char curren
 			current = current->getNext();
 
 			if (count >= winNum) {
-				cout << "Player " << currentChar << " wins!" << endl;
+				//cout << "Player " << currentChar << " wins!" << endl;
 				winCheckList.clearList(); // Clear the list after checking
 				//wyswietl plansze, powiedz kto wygra³ i zakoñcz grê dajac menu z wyborem co dalej
 				return true;
@@ -168,7 +168,7 @@ bool winCheck(unsigned int size, unsigned int winNum, char** &board, char curren
 			current = current->getNext();
 
 			if (count >= winNum) {
-				cout << "Player " << currentChar << " wins!" << endl;
+				//cout << "Player " << currentChar << " wins!" << endl;
 				winCheckList.clearList(); // Clear the list after checking
 				//wyswietl plansze, powiedz kto wygra³ i zakoñcz grê dajac menu z wyborem co dalej
 				return true;

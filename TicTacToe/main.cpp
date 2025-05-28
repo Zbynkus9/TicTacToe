@@ -44,7 +44,11 @@ int main() {
 				continue;
 			} 
 
-			winCheck(boardSize, winNumber, board, gameChars[currentPlayer], xPlace - 1, yPlace - 1);
+			if (winCheck(boardSize, winNumber, board, gameChars[currentPlayer], xPlace - 1, yPlace - 1)) {
+				printBoard(boardSize, board);
+				cout << "Player " << gameChars[currentPlayer] << " wins!" << endl;
+				break;
+			}
 
 			Sleep(5000);
 
