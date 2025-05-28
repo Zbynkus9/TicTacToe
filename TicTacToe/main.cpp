@@ -50,7 +50,7 @@ int main() {
 				break;
 			}
 
-			Sleep(5000);
+			Sleep(2000);
 
 			changePlayer();
 
