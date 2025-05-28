@@ -1,11 +1,17 @@
 #pragma once
 #include <iostream>
 #include "linkedList.h"
+//#include "menu.h"
+//#include "board.h"
 //#include <Windows.h>
 
 //system("cls");
 
 using namespace std;
+
+void menu();
+void endMenu();
+
 //do miany przekazanie board
 
 extern bool currentPlayer;
@@ -13,7 +19,8 @@ extern char gameChars[];
 extern unsigned int boardSize;
 extern unsigned int winNumber;
 extern long int xPlace, yPlace;
-
+extern char** board;
+extern bool isPvP; // Player vs Player mode
 
 unsigned int elementsOnBoard = 0; // Counter for the number of elements on the board
 unsigned int maxElementsOnBoard = 99; // Maximum number of elements on the board
@@ -206,4 +213,68 @@ bool checkForDraw() {
 		return true;
 	}
 	return false; // Not a draw
+}
+
+void startGame() {
+	menu();
+	board = createBoard(boardSize);
+	if (!board) {
+		cerr << "Error: Unable to create board." << endl;
+		return;
+	}
+	setMaxElementsOnBoard();
+}
+
+void gameLoop() {
+	switch (isPvP)
+	{
+	case 0: // Player vs AI
+		cout << "AI mode is not implemented yet." << endl;
+		deleteBoard(board, boardSize);
+		return;
+		break;
+
+	case 1: // Player vs Player
+		printBoard(boardSize, board);
+		while (true) {
+			cout << "Player " << gameChars[currentPlayer] << ", enter your move (row and column): ";
+			cin >> xPlace >> yPlace;
+			if (yPlace < 1 || yPlace > boardSize || xPlace < 1 || xPlace > boardSize) {
+				cout << "Invalid move. Please try again." << endl;
+				continue;
+			}
+
+			if (!makeMove(xPlace - 1, yPlace - 1, board)) {
+				continue;
+			}
+
+			if (winCheck(boardSize, winNumber, board, gameChars[currentPlayer], xPlace - 1, yPlace - 1)) {
+				printBoard(boardSize, board);
+				cout << "Player " << gameChars[currentPlayer] << " wins!" << endl;
+				elementsOnBoard = 0; // Reset the counter for the next game
+				deleteBoard(board, boardSize);
+				endMenu();
+				//break;
+			}
+
+			//Sleep(2000);
+
+			changePlayer();
+
+			if (checkForDraw()) {
+				printBoard(boardSize, board);
+				cout << "It's a draw!" << endl;
+				elementsOnBoard = 0;
+				deleteBoard(board, boardSize);
+				break;
+			}
+
+			printBoard(boardSize, board);
+
+		}
+		break;
+
+	default:
+		break;
+	}
 }

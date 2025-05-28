@@ -11,62 +11,12 @@ bool currentPlayer = 0;
 bool isPvP = 1;
 char gameChars[] = { 'O', 'X' };
 string menuSelection = "";
+char** board = nullptr; // Pointer to the game board
 
 long int xPlace = 0, yPlace = 0; //powinny byc na odwrot wiersze i kolumny
 
 int main() {
-	menu();
-	char** board = createBoard(boardSize);
-	if (!board) {
-		cerr << "Error: Unable to create board." << endl;
-		return 1;
-	}
-	setMaxElementsOnBoard();
-	switch (isPvP)
-	{
-	case 0: // Player vs AI
-		cout << "AI mode is not implemented yet." << endl;
-		deleteBoard(board, boardSize);
-		return 0;
-		break;
-
-	case 1: // Player vs Player
-		printBoard(boardSize, board);
-		while (true) {
-			cout << "Player " << gameChars[currentPlayer] << ", enter your move (row and column): ";
-			cin >> xPlace >> yPlace;
-			if (yPlace < 1 || yPlace > boardSize || xPlace < 1 || xPlace > boardSize) {
-				cout << "Invalid move. Please try again." << endl;
-				continue;
-			}
-
-			if (!makeMove(xPlace - 1, yPlace - 1, board)) {
-				continue;
-			} 
-
-			if (winCheck(boardSize, winNumber, board, gameChars[currentPlayer], xPlace - 1, yPlace - 1)) {
-				printBoard(boardSize, board);
-				cout << "Player " << gameChars[currentPlayer] << " wins!" << endl;
-				break;
-			}
-
-			Sleep(2000);
-
-			changePlayer();
-
-			if (checkForDraw()) {
-				printBoard(boardSize, board);
-				cout << "It's a draw!" << endl;
-				break;
-			}
-
-			printBoard(boardSize, board);
-
-		}
-		break;
-
-	default:
-		break;
-	}
+	startGame();
+	gameLoop();
 	return 0;
 }

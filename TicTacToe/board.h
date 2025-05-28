@@ -6,6 +6,7 @@
 using namespace std;
 //do miany przekazanie board
 void printBoard(unsigned int size, char** &board) {
+	if (!board) return;
 	system("cls");
 	unsigned int x_size = (6 * size) -1;
 	unsigned int y_size = (4 * size) -1;
@@ -49,6 +50,7 @@ void deleteBoard(char**& board, unsigned int size) {
 	for (unsigned int i = 0; i < size; i++) {
 		delete[] board[i];
 	}
+
 	delete[] board;
 	board = nullptr;
 }
