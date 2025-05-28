@@ -46,6 +46,8 @@ int main() {
 
 			winCheck(boardSize, winNumber, board, gameChars[currentPlayer], xPlace - 1, yPlace - 1);
 
+			Sleep(5000);
+
 			changePlayer();
 
 			if (checkForDraw()) {

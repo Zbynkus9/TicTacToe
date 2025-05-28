@@ -19,9 +19,10 @@ unsigned int elementsOnBoard = 0; // Counter for the number of elements on the b
 unsigned int maxElementsOnBoard = 99; // Maximum number of elements on the board
 
 
-void winCheck(unsigned int size, unsigned int winNum, char** &board, char currentChar, long int x_place, long int y_place) {
+bool winCheck(unsigned int size, unsigned int winNum, char** &board, char currentChar, long int x_place, long int y_place) {
 	SLinkedList winCheckList;
-	//Check row
+	cout << "\nCol: ";
+	//Check Column
 	winCheckList.addOnEmpty(board[x_place][y_place]);
 	for (long int i = 1; i < winNum; i++) {
 		if (x_place + i < size) {
@@ -33,11 +34,13 @@ void winCheck(unsigned int size, unsigned int winNum, char** &board, char curren
 	}
 	if (winCheckList.getSize() < winNum) {
 		winCheckList.clearList(); // Not enough elements to check for a win
+		cout << "Not enough elements to check for a win." << endl;
 	}
 	else {
 		unsigned int count = 0;
 		SNode* current = winCheckList.getHead();
 		for (unsigned int i = 0; i < winCheckList.getSize(); i++) {
+			cout << current->getValue() << " ; ";
 			if (current->getValue() == currentChar) {
 				count++;
 			}
@@ -49,13 +52,16 @@ void winCheck(unsigned int size, unsigned int winNum, char** &board, char curren
 
 			if (count >= winNum) {
 				cout << "Player " << currentChar << " wins!" << endl;
+				winCheckList.clearList(); // Clear the list after checking
 				//wyswietl plansze, powiedz kto wygra³ i zakoñcz grê dajac menu z wyborem co dalej
-				return;
+				return true;
 			}
 		}
+		cout << endl;
 		winCheckList.clearList(); // Clear the list after checking
 	}
-	//Check column
+	//Check row
+	cout << "\nRow: ";
 	winCheckList.addOnEmpty(board[x_place][y_place]);
 	for (long int i = 1; i < winNum; i++) {
 		if (y_place + i < size) {
@@ -67,11 +73,13 @@ void winCheck(unsigned int size, unsigned int winNum, char** &board, char curren
 	}
 	if (winCheckList.getSize() < winNum) {
 		winCheckList.clearList(); // Not enough elements to check for a win
+		cout << "Not enough elements to check for a win." << endl;
 	}
 	else {
 		unsigned int count = 0;
 		SNode* current = winCheckList.getHead();
 		for (unsigned int i = 0; i < winCheckList.getSize(); i++) {
+			cout << current->getValue() << " ; ";
 			if (current->getValue() == currentChar) {
 				count++;
 			}
@@ -83,13 +91,16 @@ void winCheck(unsigned int size, unsigned int winNum, char** &board, char curren
 
 			if (count >= winNum) {
 				cout << "Player " << currentChar << " wins!" << endl;
+				winCheckList.clearList(); // Clear the list after checking
 				//wyswietl plansze, powiedz kto wygra³ i zakoñcz grê dajac menu z wyborem co dalej
-				return;
+				return true;
 			}
 		}
+		cout << endl;
 		winCheckList.clearList(); // Clear the list after checking
 	}
-	//Check diagonal rising
+	//Check diagonal falling
+	cout << "\nDiag f: ";
 	winCheckList.addOnEmpty(board[x_place][y_place]);
 	for (long int i = 1; i < winNum; i++) {
 		if (x_place + i < size && y_place + i < size) {
@@ -101,11 +112,13 @@ void winCheck(unsigned int size, unsigned int winNum, char** &board, char curren
 	}
 	if (winCheckList.getSize() < winNum) {
 		winCheckList.clearList(); // Not enough elements to check for a win
+		cout << "Not enough elements to check for a win." << endl;
 	}
 	else {
 		unsigned int count = 0;
 		SNode* current = winCheckList.getHead();
 		for (unsigned int i = 0; i < winCheckList.getSize(); i++) {
+			cout << current->getValue() << " ; ";
 			if (current->getValue() == currentChar) {
 				count++;
 			}
@@ -117,13 +130,16 @@ void winCheck(unsigned int size, unsigned int winNum, char** &board, char curren
 
 			if (count >= winNum) {
 				cout << "Player " << currentChar << " wins!" << endl;
+				winCheckList.clearList(); // Clear the list after checking
 				//wyswietl plansze, powiedz kto wygra³ i zakoñcz grê dajac menu z wyborem co dalej
-				return;
+				return true;
 			}
 		}
+		cout << endl;
 		winCheckList.clearList(); // Clear the list after checking
 	}
-	//Check diagonal falling
+	//Check diagonal rising
+	cout << "\nDiag r: ";
 	winCheckList.addOnEmpty(board[x_place][y_place]);
 	for (long int i = 1; i < winNum; i++) {
 		if (x_place + i < size && y_place - i >= 0) {
@@ -135,11 +151,13 @@ void winCheck(unsigned int size, unsigned int winNum, char** &board, char curren
 	}
 	if (winCheckList.getSize() < winNum) {
 		winCheckList.clearList(); // Not enough elements to check for a win
+		cout << "Not enough elements to check for a win." << endl;
 	}
 	else {
 		unsigned int count = 0;
 		SNode* current = winCheckList.getHead();
 		for (unsigned int i = 0; i < winCheckList.getSize(); i++) {
+			cout << current->getValue() << " ; ";
 			if (current->getValue() == currentChar) {
 				count++;
 			}
@@ -151,12 +169,15 @@ void winCheck(unsigned int size, unsigned int winNum, char** &board, char curren
 
 			if (count >= winNum) {
 				cout << "Player " << currentChar << " wins!" << endl;
+				winCheckList.clearList(); // Clear the list after checking
 				//wyswietl plansze, powiedz kto wygra³ i zakoñcz grê dajac menu z wyborem co dalej
-				return;
+				return true;
 			}
 		}
 	}
+	cout << endl;
 	winCheckList.clearList(); // Clear the list after checking
+	return false; // No win found
 }
 
 void changePlayer() {
