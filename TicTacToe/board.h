@@ -46,11 +46,12 @@ char** createBoard(unsigned int size) {
 	return board;
 }
 
-void deleteBoard(char**& board, unsigned int size) {
-	for (unsigned int i = 0; i < size; i++) {
-		delete[] board[i];
-	}
 
-	delete[] board;
-	board = nullptr;
+void deleteBoard(char**& board, unsigned int size) {
+    if (board == nullptr) return; // Prevent access violation
+    for (unsigned int i = 0; i < size; i++) {
+        delete[] board[i];
+    }
+    delete[] board;
+    board = nullptr; // Reset pointer after deletion
 }
