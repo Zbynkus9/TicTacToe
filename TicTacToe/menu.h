@@ -17,8 +17,8 @@ void startGame();
 
 void menu() {
 	cout << "Kulko i krzyzyk!" << endl;
-	while (boardSize < 3 || boardSize > 20) {
-		cout << "\nPodaj rozmiar planszy (min = 3, max = 20): ";
+	while (boardSize < 3) {
+		cout << "\nPodaj rozmiar planszy (min = 3): ";
 		cin >> boardSize;
 	}
 	if (boardSize == 3) {
