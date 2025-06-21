@@ -38,11 +38,11 @@ void menu() {
 		cout << "\nWybierz tryb gry:\n1. Gracz kontra Gracz\n2. Gracz kontra SI\n";
 		cin >> selection;
 		if (selection == '1') {
-			cout << "\nWybra³eœ tryb Gracz kontra Gracz." << endl;
+			cout << "\nWybrales tryb Gracz kontra Gracz." << endl;
 			isPvP = true;
 		}
 		else if (selection == '2') {
-			cout << "\nWybra³eœ tryb Gracz kontra SI." << endl;
+			cout << "\nWybrales tryb Gracz kontra SI." << endl;
 			isPvP = false;
 		}
 		else {
